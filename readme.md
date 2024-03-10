@@ -1,4 +1,4 @@
-#Project bytebank using TS
+# Project bytebank using TS
 
 The purpose of this project is to deep my knwledge on typescript language.
 
