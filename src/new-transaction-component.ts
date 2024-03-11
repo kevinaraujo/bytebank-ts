@@ -25,7 +25,7 @@ elementoForm.addEventListener('submit', function(e) {
         return;
     }
 
-    elementoSaldo.textContent = saldo.toString();
+    elementoSaldo.textContent = formatValue(saldo);
 
     const novaTransacao: Transacao = {
         tipoTransacao,

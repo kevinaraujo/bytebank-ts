@@ -21,7 +21,7 @@ elementoForm.addEventListener('submit', function (e) {
         alert('Tipo de transação inválido');
         return;
     }
-    elementoSaldo.textContent = saldo.toString();
+    elementoSaldo.textContent = formatValue(saldo);
     var novaTransacao = {
         tipoTransacao: tipoTransacao,
         valor: valor,
