@@ -11,14 +11,14 @@ elementoForm.addEventListener('submit', function(e) {
     const inputValor = elementoForm.querySelector('#valor') as HTMLInputElement;
     const inputData = elementoForm.querySelector('#data') as HTMLInputElement;
 
-    let tipoTransacao = inputTipoTransacao.value;
+    let tipoTransacao: TipoTransacao = inputTipoTransacao.value as TipoTransacao;
     
     let valor: number = inputValor.valueAsNumber;
     let data: Date = new Date(inputData.value);
 
-    if (tipoTransacao == 'Depósito') {
+    if (tipoTransacao == TipoTransacao.DEPOSITO) {
         saldo += valor;
-    } else if(tipoTransacao == 'Transferência' || tipoTransacao == 'Pagamento de Boleto') {
+    } else if(tipoTransacao == TipoTransacao.TRANSFERENCIA || tipoTransacao == TipoTransacao.PAGAMENTO_BOLETO) {
         saldo -= valor;
     } else {
         alert('Tipo de transação inválido');
@@ -27,7 +27,7 @@ elementoForm.addEventListener('submit', function(e) {
 
     elementoSaldo.textContent = saldo.toString();
 
-    const novaTransacao = {
+    const novaTransacao: Transacao = {
         tipoTransacao,
         valor,
         data
