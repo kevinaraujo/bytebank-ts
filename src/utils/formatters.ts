@@ -1,8 +1,10 @@
-function formatValue(value: number): string {
+import { FormatoData } from "../types/formatoData.js";
+
+export function formatValue(value: number): string {
     return value.toLocaleString("pt-br", { currency: "BRL", style: "currency" });
 }
 
-function formatDate(date: Date, format: FormatoData = FormatoData.PADRAO): string {
+export function formatDate(date: Date, format: FormatoData = FormatoData.PADRAO): string {
     if (format === FormatoData.DIA_SEMANA_DIA_MES_ANO) {
         return date.toLocaleDateString("pt-br", {
             weekday: "long",

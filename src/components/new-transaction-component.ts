@@ -1,3 +1,7 @@
+import { Transacao } from "../types/Transacao.js";
+import { TipoTransacao } from "../types/TipoTransacao.js";
+import { getSaldo, updateSaldo } from "./balance-component.js";
+
 const elementoForm = document.querySelector('.block-nova-transacao form') as HTMLFormElement;
 elementoForm.addEventListener('submit', function(e) {
     e.preventDefault();
@@ -15,6 +19,7 @@ elementoForm.addEventListener('submit', function(e) {
     
     let valor: number = inputValor.valueAsNumber;
     let data: Date = new Date(inputData.value);
+    let saldo: number = getSaldo();
 
     if (tipoTransacao == TipoTransacao.DEPOSITO) {
         saldo += valor;
@@ -25,7 +30,7 @@ elementoForm.addEventListener('submit', function(e) {
         return;
     }
 
-    elementoSaldo.textContent = formatValue(saldo);
+    updateSaldo(saldo);
 
     const novaTransacao: Transacao = {
         tipoTransacao,
