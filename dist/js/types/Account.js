@@ -1,5 +1,12 @@
 import { TipoTransacao } from "./TipoTransacao.js";
 let saldo = 3000;
+const KEY_TRANSACOES = 'transacoes';
+const transacoes = JSON.parse(localStorage.getItem(KEY_TRANSACOES), (key, value) => {
+    if (key == "data") {
+        return new Date(value);
+    }
+    return value;
+}) || [];
 function debitar(valor) {
     if (valor < 0) {
         throw new Error("O valor a ser debitado deve ser maior que zero!");
@@ -33,7 +40,9 @@ const Account = {
             alert('Tipo de transação inválido');
             return;
         }
-        console.log(novaTransacao);
+        transacoes.push(novaTransacao);
+        console.log('aqui', transacoes);
+        localStorage.setItem(KEY_TRANSACOES, JSON.stringify(transacoes));
     }
 };
 export default Account;
