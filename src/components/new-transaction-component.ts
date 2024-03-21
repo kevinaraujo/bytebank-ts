@@ -20,7 +20,7 @@ elementoForm.addEventListener('submit', function(e) {
         let tipoTransacao: TipoTransacao = inputTipoTransacao.value as TipoTransacao;
         let valor: number = inputValor.valueAsNumber;
         let data: Date = new Date(inputData.value);
-
+        console.log('teste', inputData.value, 'teste',data);
         const novaTransacao: Transacao = {
             tipoTransacao,
             valor,

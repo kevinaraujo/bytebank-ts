@@ -1,15 +1,16 @@
+import { GrupoTransacao } from "./GrupoTransacao.js";
 import { TipoTransacao } from "./TipoTransacao.js";
 import { Transacao } from "./Transacao.js";
 
-let saldo: number = 3000;
+let saldo: number = JSON.parse(localStorage.getItem('saldo')) || 0;
 const KEY_TRANSACOES = 'transacoes';
 
 const transacoes: Transacao[] = JSON.parse(localStorage.getItem(KEY_TRANSACOES), (key:string, value: string) => {
-if (key == "data") {
-    return new Date(value);
-}
+    if (key === "data") {
+        return new Date(value);
+    }
 
-return value;
+    return value;
 }) || [];
 
 function debitar(valor: number): void {
@@ -22,6 +23,7 @@ function debitar(valor: number): void {
     }
 
     saldo -= valor;
+    localStorage.setItem('saldo', saldo.toString());
 }
 
 
@@ -31,6 +33,7 @@ function depositar(valor: number): void {
     }
     
     saldo += valor;
+    localStorage.setItem('saldo', saldo.toString());
 }
 
 const Account = {
@@ -39,6 +42,33 @@ const Account = {
     },
     getDataAcesso(): Date {
         return new Date();
+    },
+    getGruposTransacoes(): GrupoTransacao[] {
+        const gruposTransacoes:GrupoTransacao[] = [];
+        const listaTransacoes: Transacao[] = JSON.parse(JSON.stringify(transacoes)); // structuredClone(transacoes); deep clone
+        const transacoesOrdenadas: Transacao[] = listaTransacoes.sort((t1, t2) => {
+            console.log(t1,t2);
+            console.log(typeof t1, typeof t2);
+            return t2.data.getTime() - t1.data.getTime();
+        });
+        let labelAtualGrupoTransacao: string = "";
+
+        for (let transacao of transacoesOrdenadas) {
+            let labelGrupoTransacao: string = transacao.data.toLocaleDateString("pt-br", { month: "long", year: "2-digit"});
+            if (labelAtualGrupoTransacao !== labelGrupoTransacao) {
+                labelAtualGrupoTransacao = labelGrupoTransacao;
+
+                gruposTransacoes.push({
+                    label: labelGrupoTransacao,
+                    transacoes: []
+                });
+            }
+
+            const lastIndex = gruposTransacoes.length - 1;
+            gruposTransacoes[lastIndex].transacoes.push(transacao);
+        }
+
+        return gruposTransacoes;
     },
     registerTransaction(novaTransacao: Transacao): void {
         if (novaTransacao.tipoTransacao == TipoTransacao.DEPOSITO) {
@@ -51,8 +81,9 @@ const Account = {
             alert('Tipo de transação inválido');
             return;
         }
+        
         transacoes.push(novaTransacao);
-        console.log('aqui', transacoes);
+        //console.log('transacoes => ', this.getGruposTransacoes());
         localStorage.setItem(KEY_TRANSACOES, JSON.stringify(transacoes));
     }
 }
