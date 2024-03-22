@@ -45,16 +45,13 @@ const Account = {
     },
     getGruposTransacoes(): GrupoTransacao[] {
         const gruposTransacoes:GrupoTransacao[] = [];
-        const listaTransacoes: Transacao[] = JSON.parse(JSON.stringify(transacoes)); // structuredClone(transacoes); deep clone
-        const transacoesOrdenadas: Transacao[] = listaTransacoes.sort((t1, t2) => {
-            console.log(t1,t2);
-            console.log(typeof t1, typeof t2);
-            return t2.data.getTime() - t1.data.getTime();
-        });
+        const listaTransacoes: Transacao[] = structuredClone(transacoes);
+        const transacoesOrdenadas: Transacao[] = listaTransacoes.sort((t1, t2) => t2.data.getTime() - t1.data.getTime());
+
         let labelAtualGrupoTransacao: string = "";
 
         for (let transacao of transacoesOrdenadas) {
-            let labelGrupoTransacao: string = transacao.data.toLocaleDateString("pt-br", { month: "long", year: "2-digit"});
+            let labelGrupoTransacao: string = transacao.data.toLocaleDateString("pt-br", { month: "long", year: "numeric"});
             if (labelAtualGrupoTransacao !== labelGrupoTransacao) {
                 labelAtualGrupoTransacao = labelGrupoTransacao;
 
@@ -83,8 +80,8 @@ const Account = {
         }
         
         transacoes.push(novaTransacao);
-        //console.log('transacoes => ', this.getGruposTransacoes());
         localStorage.setItem(KEY_TRANSACOES, JSON.stringify(transacoes));
+        console.log('getGruposTransacoes => ', this.getGruposTransacoes());
     }
 }
 
