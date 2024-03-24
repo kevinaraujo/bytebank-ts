@@ -73,6 +73,7 @@ const Account = {
 
         } else if([TipoTransacao.TRANSFERENCIA,TipoTransacao.PAGAMENTO_BOLETO].includes(novaTransacao.tipoTransacao)) {
             debitar(novaTransacao.valor);
+            novaTransacao.valor *= -1;
 
         } else {
             alert('Tipo de transação inválido');
