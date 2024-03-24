@@ -42,3 +42,11 @@ function renderExtract(): void {
 
     elementoRegistroExtrato.innerHTML = htmlRegistroTransacoes;
 }
+
+const ExtractComponent = {
+    update(): void {
+        renderExtract();
+    }
+}
+
+export default ExtractComponent;

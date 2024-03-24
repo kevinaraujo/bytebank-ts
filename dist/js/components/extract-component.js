@@ -32,3 +32,9 @@ function renderExtract() {
     }
     elementoRegistroExtrato.innerHTML = htmlRegistroTransacoes;
 }
+const ExtractComponent = {
+    update() {
+        renderExtract();
+    }
+};
+export default ExtractComponent;
